@@ -1,0 +1,31 @@
+{
+  "name": "github-calendar",
+  "version": "1.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-contrib-coffee": "latest",
+    "grunt-contrib-copy": "latest",
+    "grunt-contrib-connect": "latest",
+    "grunt-contrib-concat": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-cssmin": "latest",
+    "grunt-regarde": "latest",
+    "grunt-notify": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-exec": "latest",
+    "grunt-usemin": "latest",
+    "grunt-bower-task": "latest",
+    "grunt-contrib-htmlmin": "0.1.1",
+    "grunt-contrib-imagemin": "0.1.2",
+    "grunt-contrib-livereload": "0.1.1",
+    "grunt-bower-hooks": "~0.2.0",
+    "grunt-open": "latest",
+    "grunt-contrib-compass": "latest",
+    "grunt-contrib-livereload": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-mocha": "~0.2.2",
+    "grunt-rev": "latest",
+    "matchdep": "latest"
+  }
+}
