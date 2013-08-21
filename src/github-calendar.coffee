@@ -1,11 +1,12 @@
 console.log 'init github-calendar'
 GITHUB_USER_URL = 'https://api.github.com/users'
 user = 'eguitarz'
+page = 1
 
 $('#github-calendar').append $('<div class="content">')
 $('#github-calendar').append $('<div class="description">')
 
-$.get( GITHUB_USER_URL + '/' + user + '/events').done( (events)->
+$.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page).done( (events)->
 	events.forEach (e)->
 		console.log e
 		commitsLength = if e.payload.commits then e.payload.commits.length else 0
