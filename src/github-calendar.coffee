@@ -31,6 +31,10 @@ $.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page).done( (events)->
 			paintGrids i % 7, Math.floor(i / 7), grid
 )
 
+daysBetween = (date1, date2)->
+	ms = Math.abs( date1 - date2 )
+	floor ms / 1000 / 60 / 60 / 24
+
 isSameDay = (date1, date2)->
 	date1.getYear() is date2.getYear() and date1.getMonth() is date2.getMonth() and date1.getDate() is date2.getDate()
 
