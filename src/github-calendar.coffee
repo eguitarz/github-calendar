@@ -21,6 +21,9 @@ $.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page).done( (events)->
 			paintGrids i % 7, Math.floor(i / 7), grid
 )
 
+isSameDay = (date1, date2)->
+	date1.getYear() is date2.getYear() and date1.getMonth() is date2.getMonth() and date1.getDate() is date2.getDate()
+
 paintGrids = (row,col, model)->
 	square = paper.rect(col * 11, row * 11, 10, 10)
 	square.attr("fill", "#ccc")
@@ -31,6 +34,3 @@ paintGrids = (row,col, model)->
 	)
 
 paper = Raphael(10, 10, 600, 100)
-# model = [1..360]
-# for grid, i in model
-# 	paintGrids i % 7, Math.floor(i / 7)
