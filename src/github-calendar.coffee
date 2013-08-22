@@ -17,6 +17,16 @@ $.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page).done( (events)->
 		grid = $('<div>').html( e.type+' '+e.created_at+' '+e.repo.name+' commits:'+commitsLength)
 		$('#github-calendar > .content').append grid
 
+		mergedResult = []
+		model.reduce (last, current)->
+			if last.created_at and current.created_at and isSameDay(last.created_at, current.created_at)
+				return { created_at: last.created_at, commitsLength: last.commitsLength + current.commitsLength }
+			else
+				mergedResult.push current
+				return current
+
+		console.log mergedResult
+
 		for grid, i in model
 			paintGrids i % 7, Math.floor(i / 7), grid
 )
