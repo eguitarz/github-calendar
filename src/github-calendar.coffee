@@ -32,10 +32,10 @@ $.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page).done( (events)->
 			paintGrids i % 7, Math.floor(i / 7), grid
 )
 
-getWeek = (date)->
-	firstDayOfThisYear = new Date(date.getFullYear(),0,1)
-	date.setDate( date.getDate() + firstDayOfThisYear.getDay() )
-	Math.ceil( ( date - firstDayOfThisYear ) / 1000 / 60 / 60 / 24 / 7 )
+@Date.prototype.getWeek = ->
+	firstDayOfThisYear = new Date(@getFullYear(),0,1)
+	@setDate( @getDate() + firstDayOfThisYear.getDay() )
+	Math.ceil( ( @ - firstDayOfThisYear ) / 1000 / 60 / 60 / 24 / 7 )
 
 daysBetween = (date1, date2)->
 	ms = Math.abs( date1 - date2 )
