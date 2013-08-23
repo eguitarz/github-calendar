@@ -1,3 +1,4 @@
+'use strict'
 console.log 'init github-calendar'
 GITHUB_USER_URL = 'https://api.github.com/users'
 user = 'eguitarz'
