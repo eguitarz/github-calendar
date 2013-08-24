@@ -6,9 +6,10 @@ page = 1
 model = []
 
 @Date.prototype.getWeek = ->
-	firstDayOfThisYear = new Date(@getFullYear(),0,1)
-	@setDate( @getDate() + firstDayOfThisYear.getDay() )
-	Math.ceil( ( @ - firstDayOfThisYear ) / 1000 / 60 / 60 / 24 / 7 )
+	date = new Date( @.getTime() )
+	firstDayOfThisYear = new Date(date.getFullYear(),0,1)
+	date.setDate( date.getDate() + firstDayOfThisYear.getDay() )
+	Math.ceil( ( date - firstDayOfThisYear ) / 1000 / 60 / 60 / 24 / 7 )
 
 daysBetween = (date1, date2)->
 	ms = Math.abs( date1 - date2 )
