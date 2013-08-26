@@ -36,7 +36,7 @@ paintGrids = (row,col, model)->
 	square.attr("stroke-opacity", "0")
 	square.hover(->
 		$('#github-calendar > .description').text model.created_at
-		$('#github-calendar > .description').append model.commitsLength
+		$('#github-calendar > .description').append ' commits:' + model.commitsLength
 	)
 
 $('#github-calendar').append $('<div class="content">')
@@ -70,7 +70,13 @@ $.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page).done( (events)->
 				mergedResult.push current
 				return current
 
+	console.log eventMap
+
 	for grid, i in model
+		if eventMap.hasOwnProperty grid.created_at.format()
+			e = eventMap[ grid.created_at.format() ]
+			commitsLength = if e.payload.commits then e.payload.commits.length else 0
+			grid.commitsLength = commitsLength
 		paintGrids i % 7, Math.floor(i / 7), grid
 )
 
