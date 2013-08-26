@@ -4,6 +4,10 @@ GITHUB_USER_URL = 'https://api.github.com/users'
 user = 'eguitarz'
 page = 1
 model = []
+eventMap = {}
+
+@Date.prototype.format = ->
+	@.getFullYear() + '-' + ( @.getMonth() + 1 ) + '-' + @.getDate()
 
 @Date.prototype.getWeek = ->
 	date = new Date( @.getTime() )
@@ -48,13 +52,13 @@ for i in [0..364]
 
 $.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page).done( (events)->
 	events.forEach (e)->
-		daysBetween
 		# console.log e
 		commitsLength = if e.payload.commits then e.payload.commits.length else 0
 		created_at = new Date(e.created_at)
 
 		# model.push { created_at: created_at, commitsLength: commitsLength }
-		
+		eventMap[ created_at.format('yyyy-mm-dd') ] = e
+
 		grid = $('<div>').html( e.type+' '+e.created_at+' '+e.repo.name+' commits:'+commitsLength)
 		$('#github-calendar > .content').append grid
 
@@ -66,10 +70,9 @@ $.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page).done( (events)->
 				mergedResult.push current
 				return current
 
-		# console.log mergedResult
-
-		for grid, i in model
-			paintGrids i % 7, Math.floor(i / 7), grid
+	for grid, i in model
+		paintGrids i % 7, Math.floor(i / 7), grid
 )
+
 
 paper = Raphael(10, 10, 600, 100)
