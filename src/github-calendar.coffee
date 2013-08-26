@@ -12,7 +12,15 @@ model = []
 	Math.ceil( ( date - firstDayOfThisYear ) / 1000 / 60 / 60 / 24 / 7 )
 
 daysBetween = (date1, date2)->
-	ms = Math.abs( date1 - date2 )
+	d1 = new Date( date1.getTime() )
+	d1.setHours 0
+	d1.setMinutes 0
+	d1.setSeconds 0
+	d2 = new Date( date2.getTime() )
+	d2.setHours 0
+	d2.setMinutes 0
+	d2.setSeconds 0
+	ms = Math.abs( d1 - d2 )
 	floor ms / 1000 / 60 / 60 / 24
 
 isSameDay = (date1, date2)->
@@ -40,11 +48,13 @@ for i in [0..364]
 
 $.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page).done( (events)->
 	events.forEach (e)->
+		daysBetween
 		# console.log e
 		commitsLength = if e.payload.commits then e.payload.commits.length else 0
 		created_at = new Date(e.created_at)
 
 		# model.push { created_at: created_at, commitsLength: commitsLength }
+		
 		grid = $('<div>').html( e.type+' '+e.created_at+' '+e.repo.name+' commits:'+commitsLength)
 		$('#github-calendar > .content').append grid
 
