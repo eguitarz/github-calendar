@@ -34,8 +34,7 @@ isSameDay = (date1, date2)->
 	date1.getYear() is date2.getYear() and date1.getMonth() is date2.getMonth() and date1.getDate() is date2.getDate()
 
 paintGrids = (row,col, model)->
-	console.log 'print ' + row + ',' + col
-	square = paper.rect(col * 11, row * 11, 10, 10)
+	square = paper.rect(col * 11, row * 11 + 20, 10, 10)
 	square.attr("fill", "#ccc")
 	square.attr("stroke-opacity", "0")
 	square.hover(->
@@ -60,8 +59,8 @@ eventsHandler = (events)->
 		# model.push { created_at: created_at, commitsLength: commitsLength }
 		eventMap[ created_at.format('yyyy-mm-dd') ] = e
 
-		grid = $('<div>').html( e.type+' '+e.created_at+' '+e.repo.name+' commits:'+commitsLength)
-		$('#github-calendar > .content').append grid
+		# grid = $('<div>').html( e.type+' '+e.created_at+' '+e.repo.name+' commits:'+commitsLength)
+		# $('#github-calendar > .content').append grid
 
 		mergedResult = []
 		model.reduce (last, current)->
