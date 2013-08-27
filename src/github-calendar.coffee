@@ -39,18 +39,7 @@ paintGrids = (row,col, model)->
 		$('#github-calendar > .description').append ' commits:' + model.commitsLength
 	)
 
-$('#github-calendar').append $('<div class="content">')
-$('#github-calendar').append $('<div class="description">')
-
-today = new Date()
-console.log 'today in week number: ' + today.getWeek()
-console.log 'today in weekday: ' + today.getDay()
-for i in [0..364]
-	date = new Date( today.getTime() )
-	date.setDate( today.getDate() - i )
-	model.unshift { created_at: date, commitsLength: 0}
-
-$.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page).done( (events)->
+eventsHandler = (events)->
 	events.forEach (e)->
 		# console.log e
 		commitsLength = if e.payload.commits then e.payload.commits.length else 0
@@ -70,15 +59,27 @@ $.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page).done( (events)->
 				mergedResult.push current
 				return current
 
-	console.log eventMap
-
 	for grid, i in model
 		if eventMap.hasOwnProperty grid.created_at.format()
 			e = eventMap[ grid.created_at.format() ]
 			commitsLength = if e.payload.commits then e.payload.commits.length else 0
 			grid.commitsLength = commitsLength
 		paintGrids i % 7, Math.floor(i / 7), grid
-)
+
+# MAIN
+$('#github-calendar').append $('<div class="content">')
+$('#github-calendar').append $('<div class="description">')
+
+today = new Date()
+console.log 'today in week number: ' + today.getWeek()
+console.log 'today in weekday: ' + today.getDay()
+for i in [0..364]
+	date = new Date( today.getTime() )
+	date.setDate( today.getDate() - i )
+	model.unshift { created_at: date, commitsLength: 0}
+
+$.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page)
+	.done eventsHandler
 
 
 paper = Raphael(10, 10, 600, 100)
