@@ -10,12 +10,12 @@ urls = [1..10].map (i)->
 	GITHUB_USER_URL + '/' + user + '/events?page=' + i
 
 @Date.prototype.format = ->
-	@.getFullYear() + '-' + ( @.getMonth() + 1 ) + '-' + @.getDate()
+	@.getUTCFullYear() + '-' + ( @.getUTCMonth() + 1 ) + '-' + @.getUTCDate()
 
 @Date.prototype.getWeek = ->
 	date = new Date( @.getTime() )
-	firstDayOfThisYear = new Date(date.getFullYear(),0,1)
-	date.setDate( date.getDate() + firstDayOfThisYear.getDay() )
+	firstDayOfThisYear = new Date(date.getUTCFullYear(),0,1)
+	date.setDate( date.getUTCDate() + firstDayOfThisYear.getUTCDay() )
 	Math.ceil( ( date - firstDayOfThisYear ) / 1000 / 60 / 60 / 24 / 7 )
 
 daysBetween = (date1, date2)->
@@ -31,7 +31,7 @@ daysBetween = (date1, date2)->
 	floor ms / 1000 / 60 / 60 / 24
 
 isSameDay = (date1, date2)->
-	date1.getYear() is date2.getYear() and date1.getMonth() is date2.getMonth() and date1.getDate() is date2.getDate()
+	date1.getUTCFullYear() is date2.getUTCFullYear() and date1.getUTCMonth() is date2.getUTCMonth() and date1.getUTCDate() is date2.getUTCDate()
 
 paintGrids = (row,col, model)->
 	square = paper.rect(col * 11, row * 11 + 20, 10, 10)
