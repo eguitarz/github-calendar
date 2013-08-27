@@ -5,6 +5,7 @@ user = 'eguitarz'
 page = 1
 model = []
 eventMap = {}
+processedUrls = 0
 urls = [1..10].map (i)->
 	GITHUB_USER_URL + '/' + user + '/events?page=' + i
 
@@ -41,6 +42,14 @@ paintGrids = (row,col, model)->
 		$('#github-calendar > .description').append ' commits:' + model.commitsLength
 	)
 
+draw = ->
+	for grid, i in model
+		if eventMap.hasOwnProperty grid.created_at.format()
+			e = eventMap[ grid.created_at.format() ]
+			commitsLength = if e.payload.commits then e.payload.commits.length else 0
+			grid.commitsLength = commitsLength
+	paintGrids i % 7, Math.floor(i / 7), grid
+
 eventsHandler = (events)->
 	events.forEach (e)->
 		# console.log e
@@ -60,13 +69,10 @@ eventsHandler = (events)->
 			else
 				mergedResult.push current
 				return current
+	processedUrls += 1
+	if (processedUrls > 0)
+		draw()
 
-	for grid, i in model
-		if eventMap.hasOwnProperty grid.created_at.format()
-			e = eventMap[ grid.created_at.format() ]
-			commitsLength = if e.payload.commits then e.payload.commits.length else 0
-			grid.commitsLength = commitsLength
-		paintGrids i % 7, Math.floor(i / 7), grid
 
 # MAIN
 $('#github-calendar').append $('<div class="content">')
@@ -82,6 +88,5 @@ for i in [0..364]
 
 $.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page)
 	.done eventsHandler
-
 
 paper = Raphael(10, 10, 600, 100)
