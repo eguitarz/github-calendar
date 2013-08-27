@@ -35,7 +35,10 @@ isSameDay = (date1, date2)->
 
 paintGrids = (row,col, model)->
 	square = paper.rect(col * 11, row * 11 + 20, 10, 10)
-	square.attr("fill", "#ccc")
+	if model.commitsLength > 0
+		square.attr("fill", "green")
+	else
+		square.attr("fill", "#ccc")
 	square.attr("stroke-opacity", "0")
 	square.hover(->
 		$('#github-calendar > .description').text model.created_at
