@@ -5,6 +5,8 @@ user = 'eguitarz'
 page = 1
 model = []
 eventMap = {}
+urls = [1..10].map (i)->
+	GITHUB_USER_URL + '/' + user + '/events?page=' + i
 
 @Date.prototype.format = ->
 	@.getFullYear() + '-' + ( @.getMonth() + 1 ) + '-' + @.getDate()
