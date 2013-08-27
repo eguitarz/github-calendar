@@ -77,11 +77,10 @@ $('#github-calendar').append $('<div class="content">')
 $('#github-calendar').append $('<div class="description">')
 
 today = new Date()
-console.log 'today in week number: ' + today.getWeek()
-console.log 'today in weekday: ' + today.getDay()
-for i in [0..364]
+end = 364 + today.getUTCDay()
+for i in [0..end]
 	date = new Date( today.getTime() )
-	date.setDate( today.getDate() - i )
+	date.setDate( today.getUTCDate() - i )
 	model.unshift { created_at: date, commitsLength: 0}
 
 urls.forEach (url)->
