@@ -34,6 +34,7 @@ isSameDay = (date1, date2)->
 	date1.getYear() is date2.getYear() and date1.getMonth() is date2.getMonth() and date1.getDate() is date2.getDate()
 
 paintGrids = (row,col, model)->
+	console.log 'print ' + row + ',' + col
 	square = paper.rect(col * 11, row * 11, 10, 10)
 	square.attr("fill", "#ccc")
 	square.attr("stroke-opacity", "0")
@@ -48,7 +49,7 @@ draw = ->
 			e = eventMap[ grid.created_at.format() ]
 			commitsLength = if e.payload.commits then e.payload.commits.length else 0
 			grid.commitsLength = commitsLength
-	paintGrids i % 7, Math.floor(i / 7), grid
+		paintGrids i % 7, Math.floor(i / 7), grid
 
 eventsHandler = (events)->
 	events.forEach (e)->
@@ -70,7 +71,8 @@ eventsHandler = (events)->
 				mergedResult.push current
 				return current
 	processedUrls += 1
-	if (processedUrls > 0)
+	if (processedUrls == 10)
+		console.log 'draw....'
 		draw()
 
 
@@ -86,7 +88,8 @@ for i in [0..364]
 	date.setDate( today.getDate() - i )
 	model.unshift { created_at: date, commitsLength: 0}
 
-$.get( GITHUB_USER_URL + '/' + user + '/events?page=' + page)
-	.done eventsHandler
+urls.forEach (url)->
+	$.get( url )
+		.done eventsHandler
 
 paper = Raphael(10, 10, 600, 100)
