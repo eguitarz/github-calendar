@@ -20,13 +20,13 @@ urls = [1..10].map (i)->
 
 daysBetween = (date1, date2)->
 	d1 = new Date( date1.getTime() )
-	d1.setHours 0
-	d1.setMinutes 0
-	d1.setSeconds 0
+	d1.setUTCHours 0
+	d1.setUTCMinutes 0
+	d1.setUTCSeconds 0
 	d2 = new Date( date2.getTime() )
-	d2.setHours 0
-	d2.setMinutes 0
-	d2.setSeconds 0
+	d2.setUTCHours 0
+	d2.setUTCMinutes 0
+	d2.setUTCSeconds 0
 	ms = Math.abs( d1 - d2 )
 	floor ms / 1000 / 60 / 60 / 24
 
@@ -67,11 +67,17 @@ draw = ->
 eventsHandler = (events)->
 	events.forEach (e)->
 		# console.log e
+		e.payload.commits ||= []
 		commitsLength = if e.payload.commits then e.payload.commits.length else 0
 		created_at = new Date(e.created_at)
 
-		# model.push { created_at: created_at, commitsLength: commitsLength }
-		eventMap[ created_at.format('yyyy-mm-dd') ] = e
+		key = created_at.format('yyyy-mm-dd')
+		if !!eventMap[key]
+			e.payload.commits.forEach (c)->
+				eventMap[key].payload.commits.push c if !!eventMap[key].payload.commits
+		else
+			eventMap[key] = e
+		eventMap[key].payload.commits ||= []
 
 		# grid = $('<div>').html( e.type+' '+e.created_at+' '+e.repo.name+' commits:'+commitsLength)
 		# $('#github-calendar > .content').append grid
