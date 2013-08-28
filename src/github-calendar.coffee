@@ -50,10 +50,14 @@ paintGrids = (row,col, model)->
 	else
 		square.attr("fill", "#ccc")
 	square.attr("stroke-opacity", "0")
-	square.hover(->
-		$('#github-calendar > .description').text model.created_at.toUTCString()
-		$('#github-calendar > .description').append ' commits:' + model.commitsLength
-	)
+	square.hover ( ->
+			$('#github-calendar > .description').text model.created_at.toUTCString()
+			$('#github-calendar > .description').append ' commits:' + model.commitsLength
+			square.attr("stroke-opacity", "1")
+		), (->
+			square.attr("stroke-opacity", "0")
+		)
+
 
 draw = ->
 	for grid, i in model
