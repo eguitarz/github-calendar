@@ -38,7 +38,7 @@ paintGrids = (row,col, model)->
 	lightgreen = '#d6e685'
 	grassgreen = '#44a340'
 	darkgreen = '#1e6823'
-	square = paper.rect(col * 11, row * 11 + 20, 10, 10)
+	square = paper.rect(col * 11, row * 11, 10, 10)
 	if model.commitsLength > 0 && model.commitsLength < 3
 		square.attr("fill", lightgreen)
 	else if model.commitsLength >= 3 && model.commitsLength < 6
@@ -51,13 +51,17 @@ paintGrids = (row,col, model)->
 		square.attr("fill", "#ccc")
 	square.attr("stroke-opacity", "0")
 	square.hover ( ->
-			$('#github-calendar > .brief').append ' commits:' + model.commitsLength + ' '
-			$('#github-calendar > .brief').text model.created_at.format()
+			$('#github-calendar > .brief').html '<div style="text-align:left;float:left">'+model.created_at.format()+'</div>'
+			$('#github-calendar > .brief').append '<div style="text-align:right;">'+model.commitsLength+' commits</div>'
+			$('#github-calendar > .brief').css('opacity', 1);
+			$('#github-calendar > .description').css('opacity', 1);
 			$('#github-calendar > .description').html('')
 			!!model.commits && model.commits.forEach (c)->
-				$('#github-calendar > .description').append '<li style="text-overflow:ellipsis;overflow:hidden;">'+model.repo.name+' - '+c.message+'</li>'
+				$('#github-calendar > .description').append '<li style="text-overflow:ellipsis;overflow:hidden;padding:5px 10px;">'+model.repo.name+' - '+c.message+'</li>'
 			square.attr("stroke-opacity", "1")
 		), (->
+			$('#github-calendar > .brief').css('opacity', 0);
+			$('#github-calendar > .description').css('opacity', 0);
 			square.attr("stroke-opacity", "0")
 		)
 
@@ -95,8 +99,8 @@ eventsHandler = (events)->
 
 
 # MAIN
-$('#github-calendar').append $('<div class="brief">')
-$('#github-calendar').append $('<ul class="description" style="width:600px;overflow:hidden;white-space:nowrap;padding:0;list-style-type:none;margin-top:90px">')
+$('#github-calendar').append $('<div class="brief" style="background-color:#ddd;z-index:999;width:570px;padding:5px 10px;border-radius:5px;opacity:0">')
+$('#github-calendar').append $('<ul class="description" style="background-color:#ddd;z-index:999;width:590px;overflow:hidden;border-radius:5px;white-space:nowrap;padding:0;list-style-type:none;margin-top:85px">')
 
 today = new Date()
 end = 364 + today.getUTCDay()
@@ -109,4 +113,4 @@ urls.forEach (url)->
 	$.get( url )
 		.done eventsHandler
 
-paper = Raphael(10, 10, 600, 100)
+paper = Raphael(10, 40, 600, 100)
