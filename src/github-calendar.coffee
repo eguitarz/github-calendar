@@ -34,7 +34,25 @@ isSameDay = (date1, date2)->
 	date1.getUTCFullYear() is date2.getUTCFullYear() and date1.getUTCMonth() is date2.getUTCMonth() and date1.getUTCDate() is date2.getUTCDate()
 
 paintText = ->
-	# currentMonth = 
+	month = {
+		0: 'Jan'
+		1: 'Feb'
+		2: 'Mar'
+		3: 'Apr'
+		4: 'May'
+		5: 'Jun'
+		6: 'Jul'
+		7: 'Aug'
+		8: 'Sep'
+		9: 'Oct'
+		10: 'Nov'
+		11: 'Dec'
+	}
+	currentMonth = ( new Date ).getUTCMonth()
+	for i in [0..12]
+		m = ( currentMonth + i ) % 12
+		x = i * 45
+		paper.text(x + 26, 5, month[m])
 	paper.text(4, 31, 'M')
 	paper.text(4, 53, 'W')
 	paper.text(4, 76, 'F')
