@@ -33,12 +33,19 @@ daysBetween = (date1, date2)->
 isSameDay = (date1, date2)->
 	date1.getUTCFullYear() is date2.getUTCFullYear() and date1.getUTCMonth() is date2.getUTCMonth() and date1.getUTCDate() is date2.getUTCDate()
 
+paintText = ->
+	# currentMonth = 
+	paper.text(4, 31, 'M')
+	paper.text(4, 53, 'W')
+	paper.text(4, 76, 'F')
+	# paper.text(11 + 15, 5, 'Aug')
+
 paintGrids = (row,col, model)->
 	green = '#8cc665'
 	lightgreen = '#d6e685'
 	grassgreen = '#44a340'
 	darkgreen = '#1e6823'
-	square = paper.rect(col * 11, row * 11, 10, 10)
+	square = paper.rect(col * 11 + 15, row * 11 + 15, 10, 10)
 	if model.commitsLength > 0 && model.commitsLength < 3
 		square.attr("fill", lightgreen)
 	else if model.commitsLength >= 3 && model.commitsLength < 6
@@ -67,6 +74,7 @@ paintGrids = (row,col, model)->
 
 
 draw = ->
+	paintText()
 	for grid, i in model
 		if eventMap.hasOwnProperty grid.created_at.format()
 			e = eventMap[ grid.created_at.format() ]
@@ -99,8 +107,8 @@ eventsHandler = (events)->
 
 
 # MAIN
-$('#github-calendar').append $('<div class="brief" style="background-color:#ddd;z-index:999;width:570px;padding:5px 10px;border-radius:5px;opacity:0">')
-$('#github-calendar').append $('<ul class="description" style="background-color:#ddd;z-index:999;width:590px;overflow:hidden;border-radius:5px;white-space:nowrap;padding:0;list-style-type:none;margin-top:85px">')
+$('#github-calendar').append $('<div class="brief" style="-webkit-transition:opacity 300ms;-moz-transition:opacity 300ms;background-color:#ddd;z-index:999;width:580px;padding:5px 10px;border-radius:5px;opacity:0">')
+$('#github-calendar').append $('<ul class="description" style="-webkit-transition:opacity 300ms;-moz-transition:opacity 300ms;background-color:#ddd;z-index:999;width:600px;overflow:hidden;border-radius:5px;white-space:nowrap;padding:0;list-style-type:none;margin-top:115px">')
 
 today = new Date()
 end = 364 + today.getUTCDay()
