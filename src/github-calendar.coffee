@@ -51,8 +51,11 @@ paintGrids = (row,col, model)->
 		square.attr("fill", "#ccc")
 	square.attr("stroke-opacity", "0")
 	square.hover ( ->
-			$('#github-calendar > .description').text model.created_at.toUTCString()
-			$('#github-calendar > .description').append ' commits:' + model.commitsLength
+			$('#github-calendar > .brief').append ' commits:' + model.commitsLength + ' '
+			$('#github-calendar > .brief').text model.created_at.format()
+			$('#github-calendar > .description').html('')
+			!!model.commits && model.commits.forEach (c)->
+				$('#github-calendar > .description').append '<li style="text-overflow:ellipsis;overflow:hidden;">'+model.repo.name+' - '+c.message+'</li>'
 			square.attr("stroke-opacity", "1")
 		), (->
 			square.attr("stroke-opacity", "0")
@@ -65,6 +68,8 @@ draw = ->
 			e = eventMap[ grid.created_at.format() ]
 			commitsLength = if e.payload.commits then e.payload.commits.length else 0
 			grid.commitsLength = commitsLength
+			grid.commits = e.payload.commits if e.payload.commits
+			grid.repo = e.repo if e.repo
 			grid.created_at = new Date(e.created_at)
 		paintGrids i % 7, Math.floor(i / 7), grid
 
@@ -83,9 +88,6 @@ eventsHandler = (events)->
 			eventMap[key] = e
 		eventMap[key].payload.commits ||= []
 
-		# grid = $('<div>').html( e.type+' '+e.created_at+' '+e.repo.name+' commits:'+commitsLength)
-		# $('#github-calendar > .content').append grid
-
 	processedUrls += 1
 	if (processedUrls == 10)
 		console.log 'draw....'
@@ -93,8 +95,8 @@ eventsHandler = (events)->
 
 
 # MAIN
-$('#github-calendar').append $('<div class="content">')
-$('#github-calendar').append $('<div class="description">')
+$('#github-calendar').append $('<div class="brief">')
+$('#github-calendar').append $('<ul class="description" style="width:600px;overflow:hidden;white-space:nowrap;padding:0;list-style-type:none;margin-top:90px">')
 
 today = new Date()
 end = 364 + today.getUTCDay()
