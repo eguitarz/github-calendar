@@ -12,7 +12,8 @@ module.exports = function (grunt) {
   var config = {
       src: 'src',
       dist: 'dist',
-      dev: '.dev'
+      dev: '.dev',
+      release: 'builds'
   };
 
   grunt.initConfig({
@@ -89,7 +90,8 @@ module.exports = function (grunt) {
     clean: {
         dist: ['.tmp', '<%= config.dist %>/*'],
         server: '.tmp',
-        dev: '.dev'
+        dev: '.dev',
+        release: 'builds'
     },
     jshint: {
       options: {
@@ -151,7 +153,7 @@ module.exports = function (grunt) {
     uglify: {
       dist: {
         files: {
-          '<%= config.dist %>/main.js': [
+          '<%= config.dist %>/github-calendar.min.js': [
               '<%= config.src %>/{,*/}*.js',
               '.tmp/{,*/}*.js'
           ],
@@ -232,6 +234,12 @@ module.exports = function (grunt) {
           src: [
             '*.js'
           ]
+        }, {
+          expand: true,
+          dot: true,
+          cwd: '.tmp',
+          dest: '<%= config.dist %>',
+          src: ['*.js']
         }]
       },
       dev: {
@@ -272,11 +280,17 @@ module.exports = function (grunt) {
           dest: '<%= config.dev %>',
           src: ['*.css']
         }]
-      }
-    },
-    rev: {
-      files: {
-        src: ['<%= config.dist %>/{,*/}/*.js', '<%= config.dist %>/*.css']
+      },
+      release: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= config.dist %>',
+          dest: '<%= config.release %>',
+          src: [
+            '*.js'
+          ]
+        }]
       }
     }
   });
@@ -317,8 +331,13 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'copy',
-    'rev',
     'usemin',
+  ]);
+
+  grunt.registerTask('release', [
+    'clean:release',
+    'build',
+    'copy:release'
   ]);
 
   grunt.registerTask('dev', [
@@ -326,7 +345,7 @@ module.exports = function (grunt) {
     'coffee',
     'compass:dist',
     'copy',
-    // 'livereload-start',
+    'livereload-start',
     'watch'
   ]);
 
