@@ -9,11 +9,16 @@
     <title>github-calendar</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <link href='http://fonts.googleapis.com/css?family=Coda' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+      body {font-family: "coda", Arial, Helvetica}
+    </style>
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     
     <!-- build:css styles/main.css -->
     <!-- endbuild -->
+    <title>Github Calendar</title>
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -21,12 +26,13 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div id="github-calendar"></div>
+    <div id="github-calendar" style="position:relative;width:600px;margin:40px auto;"></div>
 
     <script src="vendor/jquery-2.0.3.min.js"></script>
     <script src="vendor/raphael-min.js"></script>
-    <!-- build:js main.js -->
+    <!-- build:js github-calendar.min.js -->
     <script src="github-calendar.js"></script>
     <!-- endbuild -->
+    <script>$('#github-calendar').calendar({user: 'eguitarz'})</script>
   </body>
 </html>
