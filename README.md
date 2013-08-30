@@ -8,8 +8,8 @@ githb-calendar records your commits on github, which could embed in your website
 Use
 ---
 
-```javascript
-<script>$('#YOUR_ELEMENT').calendar({user:GITHUB_USER_NAME});</script>
+```html
+<script>$('#YOUR_ELEMENT').calendar({user:'GITHUB_USER_NAME'});</script>
 ```
 
 Features
