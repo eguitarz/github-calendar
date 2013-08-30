@@ -5,6 +5,11 @@ github-calendar
 
 githb-calendar records your commits on github, which could embed in your website. It is a javascript calendar, and bind to a github account. Wrapped as a jquery plugin.
 
+Prerequisites
+---------------
+- [jQuery](http://jquery.com)
+- [Raphaël.js](http://raphaeljs.com)
+
 Use
 ---
 
